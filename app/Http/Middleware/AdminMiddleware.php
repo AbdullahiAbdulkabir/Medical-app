@@ -2,10 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\User;
 use Closure;
 use Auth;
-class ROMiddleware
+use App\User;
+
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,9 +18,10 @@ class ROMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::check() && Auth::user()->status == User::ADMIN) {
-            return redirect()->route('home');
+            return $next($request); 
         }
         elseif (Auth::check() && Auth::user()->status == User::DOCTOR) {
+           
             return redirect()->route('doctor');
         }
         elseif (Auth::check() && Auth::user()->status == User::NURSE) {
@@ -29,7 +31,7 @@ class ROMiddleware
             return redirect()->route('pharmacist');
         }
         elseif (Auth::check() && Auth::user()->status == User::RECORD_OFFICER) {
-            return $next($request); 
+            return redirect()->route('ro');
         }
         elseif (Auth::check() && Auth::user()->status == User::LAB_SCIENTIST) {
             return redirect()->route('lab');
@@ -37,6 +39,5 @@ class ROMiddleware
         else {
             return redirect()->route('login');
         }
-
     }
 }

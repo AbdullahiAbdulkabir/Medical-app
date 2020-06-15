@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                 	
-                                    <div class="huge">{{count($p)}}</div>
+                                    <div class="huge">{{count($patients)}}</div>
                                    
                                     <div> New Patient</div>
                                 </div>
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">
-                                    {{count($p)}}</div>
+                                    {{count($patients)}}</div>
                                     
                                     <div> Patients In Lab</div>
                                 </div>
@@ -116,15 +116,15 @@
                                 </thead>
                                 <tbody>
                                 	
-                                    @foreach($p as $patient)
-                                     @if($patient->Active==1)
+                                    @foreach($patients as $patient)
+                                     @if($patient->status==1)
 				                    <tr>
 				                        <td>{{$patient->mssnid}}</td>
-				                        <td>{{$patient->firstname}} {{$patient->lastname}}</td>
-				                        <td>{{$patient->areacouncil}}</td>
+				                        <td>{{$patient->first_name}} {{$patient->surname}}</td>
+				                        <td>{{$patient->area_council}}</td>
                                     
 				                     
-				                        <td> <textarea class="form-control medium" style="background-color: white" readonly>{{$patient->complaint}}</textarea>
+				                        <td> <textarea class="form-control medium" style="background-color: white" readonly>{{$patient->complain}}</textarea>
                                  
 				                    </td>
 				                      
@@ -203,13 +203,11 @@
                     <div class="modal-body">
                        <div class="panel panel-info">
                                             <div class="panel-heading">
-											@if($patient->mssnid)
-                                               {{$patient->firstname}} {{$patient->lastname}}
-                                               @endif
+											<!-- dfdsdfs here -->
                                             </div>
                        	<label>Complaint</label>
                                             <div class="panel-body">
-                                                <form class="form-group" method="POST" action="{{URL::to('doctor/admit/'.$patient->mssnid)}}">
+                                                <form class="form-group" method="POST" action="{{URL::to('doctor/admit/')}}">
                                                     <textarea name="complaint" class="form-control" cols="30" rows="10"></textarea>
                                                     <input type="submit" value="Submit" class="btn btn-primary" style="border-radius: 0; margin-top: 10px; float:right">
                                                 </form>

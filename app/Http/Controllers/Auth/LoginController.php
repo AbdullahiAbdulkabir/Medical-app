@@ -6,8 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\URL;
-// use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
@@ -36,41 +35,11 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo;
-    public function redirectTo()
-    {
-        $role= Auth::user()->status;
-        switch ($role) {
-            case User::ADMIN:
-                $this->redirectTo='/admin/home';
-                return  $this->redirectTo;
-                break;
-            case User::DOCTOR:
-                 $this->redirectTo='/doctor';
-                return $this->redirectTo;
-                break;
-             case User::NURSE:
-                 $this->redirectTo='/nurse';
-                 return $this->redirectTo;   
-                break;
-            case User::PHARMACIST:
-                 $this->redirectTo='/pharmacists';
-                return $this->redirectTo;
-                break;
-            case User::RECORD_OFFICER:
-                 $this->redirectTo='/ro';
-                return $this->redirectTo;
-                break;
-            case User::LAB_SCIENTIST:
-                 $this->redirectTo='/lab';
-                return $this->redirectTo;
-                break;
-            default:
-                  $this->redirectTo='/login';
-                return $this->redirectTo;
-                break;
-        }
-    }
+    protected $redirectTo ='/home';
+    // public function redirectTo()
+    // {
+        
+    // }
     /**
      * Create a new controller instance.
      *
@@ -81,6 +50,46 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
    
+   public function userLogin(Request $request)
+   {
+        $request->validate([
+            'email'=>'required|email|max:255',
+            'password'=>'required|min:6'
+        ]);
+         $user = User::where('email',$request->email)->first();
+        $credentials = $request->only('email', 'password');
+        if(Auth::attempt($credentials)) {
+            $defaultRoute = 'admin/home';
+            $role= $user->status;
+            switch ($role) {
+                case User::ADMIN:
+                    $defaultRoute='/admin/home';
+                    break;
+                case User::DOCTOR:
+                    $defaultRoute ='/doctor';
+                  
+                    break;
+                 case User::NURSE:
+                     $defaultRoute='/nurse';
+                    break;
+                case User::PHARMACIST:
+                     $defaultRoute='/pharmacist';
+                    break;
+                case User::RECORD_OFFICER:
+                     $defaultRoute='/ro';
+                    break;
+                case User::LAB_SCIENTIST:
+                     $defaultRoute='/lab';
+                    break;
+                default:
+                      $defaultRoute='/login';
+                    break;
+            }
+            return redirect(url($defaultRoute));
+        }else{
+            return redirect()->route('login')->with('error','Invalid login credentials');
+        }
+   }
    public function logout(Request $request)
     {
         $this->doLogout($request);

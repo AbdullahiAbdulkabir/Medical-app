@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 Route::prefix('login')->group(function(){
 	Route::get('/', 'Auth\LoginController@showLoginView')->name('login');
-	Route::post('/', 'Auth\LoginController@login');
+	Route::post('/', 'Auth\LoginController@userLogin');
 });
 
 Route::post('logout','Auth\LoginController@logout')->name('logout');
@@ -31,12 +31,11 @@ Route::group(['middleware' => ['auth']], function () {
 			Route::get('/', 'Admin\UserController@showRegisterView')->name('register');
 			Route::post('/', 'Admin\UserController@create')->name('register');
 		});
-		Route::get('/home', 'HomeController@index')->name('home');
+		Route::get('/home', 'Admin\AdminController@index')->name('home');
 		Route::get('/delete/{mssnid}', 'UserController@delete');
 	});
-	
+
 	Route::post('/update', 'HomeController@update');
-	Route::post('/add', 'HomeController@Add');
 	Route::get('/profile',function(){
 		return view('update');
 	});

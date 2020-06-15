@@ -88,5 +88,12 @@
     
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        function deletecompfunc(id,company_name)
+        {
+            document.querySelector('#ModalCompanyhead').innerHTML = 'Are you sure you want to delete '+company_name
+        document.querySelector('#deletecompanyform').action = "/security/vas/insurance/company/delete/"+id   
+        }
+    </script>
 </body>
 </html>
