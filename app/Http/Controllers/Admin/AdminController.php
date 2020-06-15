@@ -1,33 +1,50 @@
 <?php
 
-namespace App\Http\Controllers\Doctor;
+namespace App\Http\Controllers\Admin;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
 
-class DoctorController extends Controller
+class AdminController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
-        $this->middleware('doctor');
+        $this->middleware(['auth','admin']);
     }
 
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        
-         // $patient = DB::table('patientsinstance')
-         //    ->select('patients.*','patientsinstance.*')
-
-         //    ->join('patients', 'patientsinstance.patientsid', '=','patients.mssnid' )
-         //    ->get();
         $patient = DB::table('patients')->get();
-       
-            // dd($patient);
-         return view('doctor', ['patients'=> $patient,'p'=> $patient]);
+        // $p = DB::table('patients')->get();
+
+        $users = DB::table('users')->get();
+        if (Auth::user()->status==User::ADMIN) {
+          return view('home', ['patients'=> $patient,'users'=> $users]);
+
+        }elseif (Auth::user()->status==User::RECORD_OFFICER) {
+          return view('/ro', ['patients'=> $patient]);   
+        }else{
+
+        return view('/'.strtolower(Auth::user()->status), ['patients'=> $patient]);   
+        }
+
+        
     }
+
     public function update(Request $request)
     {
         $request->validate([
@@ -52,8 +69,14 @@ class DoctorController extends Controller
             'status' => $status,
             'password' => bcrypt($password)
          );
-        
+        $p = DB::table('patients')->get();
         $q =DB::table('users')->where('id',$id)->update($data);
-        return redirect('/doctor');
+        if($status=='Admin'){
+        return redirect('/home', ['p'=> $p]);
+        }elseif ($status=='Nurse') {
+        return redirect('/nurse', ['p'=> $p]);
+        }elseif ($status=='Doctor') {
+        return redirect('/doctor', ['p'=> $p]);
+        }
     }
 }

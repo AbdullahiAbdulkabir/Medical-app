@@ -37,6 +37,7 @@ class HomeController extends Controller
         }elseif (Auth::user()->status==User::RECORD_OFFICER) {
           return view('/ro', ['patients'=> $patient]);   
         }else{
+
         return view('/'.strtolower(Auth::user()->status), ['patients'=> $patient]);   
         }
 
