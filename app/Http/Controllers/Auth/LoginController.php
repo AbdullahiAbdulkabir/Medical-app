@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -21,7 +22,14 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+     public function showLoginView()
+    {
+        return view('auth.login');
+    }
+
+    use AuthenticatesUsers{
+        logout as doLogout;
+    }
 
     /**
      * Where to redirect users after login.
@@ -33,27 +41,27 @@ class LoginController extends Controller
     {
         $role= Auth::user()->status;
         switch ($role) {
-            case 'Admin':
-                $this->redirectTo='/home';
+            case User::ADMIN:
+                $this->redirectTo='/admin/home';
                 return  $this->redirectTo;
                 break;
-            case 'Doctor':
+            case User::DOCTOR:
                  $this->redirectTo='/doctor';
                 return $this->redirectTo;
                 break;
-             case 'Nurse':
+             case User::NURSE:
                  $this->redirectTo='/nurse';
                  return $this->redirectTo;   
                 break;
-            case 'Pharmacists':
+            case User::PHARMACIST:
                  $this->redirectTo='/pharmacists';
                 return $this->redirectTo;
                 break;
-            case 'Record Officer':
+            case User::RECORD_OFFICER:
                  $this->redirectTo='/ro';
                 return $this->redirectTo;
                 break;
-            case 'Lab Scientist':
+            case User::LAB_SCIENTIST:
                  $this->redirectTo='/lab';
                 return $this->redirectTo;
                 break;
@@ -73,4 +81,9 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
    
+   public function logout(Request $request)
+    {
+        $this->doLogout($request);
+        return redirect()->route('login');
+    }
 }

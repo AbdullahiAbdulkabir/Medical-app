@@ -272,9 +272,7 @@ body{
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Forgot Your Password?
-                                </a>
+                                
                             </div>
                         </div>
                     </form> -->
@@ -310,15 +308,13 @@ body{
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
-                                <div class="checkbox">
+                              <!--   <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
                                     </label>
-                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Forgot Your Password?
-                                </a>
+                                     
 
-                                </div>
+                                </div> -->
                                 <button type="submit" class="btn btn-primary">
                                     Login
                                 </button>

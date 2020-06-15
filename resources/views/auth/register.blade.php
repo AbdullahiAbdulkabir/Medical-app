@@ -68,19 +68,17 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div> 
                         <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
                             <label for="status" class="col-md-4 control-label">status</label>
-                          <div class="col-md-6 ">
+                          <div class="col-md-6 "> 
                                 <select class="form-control" id="status" name="status"  autofocus>
                                     <option value="" selected disabled hidden>Select</option>
-                                    <option value="Doctor">Doctor</option>
-                                    <option value="Nurse">Nurse</option>
-                                    <option value="Pharmacists">Pharmacists</option>
-                                    <option value="Lab Scientist">Lab Scientist</option>
-                                    <option value="Record Officer">Record Officer</option>
-                                    
-
+                                    <option value="{{App\User::DOCTOR}}">Doctor</option>
+                                    <option value="{{App\User::NURSE}}">Nurse</option>
+                                    <option value="{{App\User::PHARMACIST}}">Pharmacists</option>
+                                    <option value="{{App\User::LAB_SCIENTIST}}">Lab Scientist</option>
+                                    <option value="{{App\User::RECORD_OFFICER}}">Record Officer</option>
                                     @if ($errors->has('status'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('status') }}</strong>

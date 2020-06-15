@@ -31,9 +31,16 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/home') }}">
+                    @if(Auth::user()->status==App\User::ADMIN)
+                    <a class="navbar-brand" href="{{ url('/admin/home') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
+
+                    @elseif(Auth::user()->status==App\User::RECORD_OFFICER)
+                    <a class="navbar-brand" href="{{ url('/ro') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
+                    @endif
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">

@@ -144,7 +144,7 @@ public function __construct()
     }
     public function delegates()
     {
-     $delegates = DB::table('personal')->where('view_date','>=','2017-09-29')->get();
+     $delegates = DB::table('personal')->where('view_date','>=','2017-09-29')->paginate(155);
      return view('delegatesailment',['delegates'=>$delegates]);
     }
 }

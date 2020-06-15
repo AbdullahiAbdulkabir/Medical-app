@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
@@ -27,15 +28,15 @@ class HomeController extends Controller
     public function index()
     {
         $patient = DB::table('patients')->get();
-        $p = DB::table('patients')->get();
+        // $p = DB::table('patients')->get();
 
         $users = DB::table('users')->get();
-        if (Auth::user()->status=='Admin') {
-         return view('home', ['patients'=> $patient,'users'=> $users,'p'=> $p]);
-        }elseif (Auth::user()->status=='Record Officer') {
-        return view('/ro', ['patients'=> $patient]);   
-        }else{
+        if (Auth::user()->status==User::ADMIN) {
+          return view('home', ['patients'=> $patient,'users'=> $users]);
 
+        }elseif (Auth::user()->status==User::RECORD_OFFICER) {
+          return view('/ro', ['patients'=> $patient]);   
+        }else{
         return view('/'.strtolower(Auth::user()->status), ['patients'=> $patient]);   
         }
 
@@ -44,13 +45,10 @@ class HomeController extends Controller
 
     public function delete($id)
     {
-      
-      $user = DB::table('users')->where('id',$id)->delete();;
-     if ($user) {
-        return redirect('/home')->with('message','User Deleted');   
-         }
-
-        
+      $user = DB::table('users')->find($id)->delete();;
+       if ($user) {
+          return redirect('/admin/home')->with('message','User Deleted');   
+        }    
     }
 
     public function update(Request $request)
