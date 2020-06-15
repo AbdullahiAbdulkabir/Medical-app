@@ -35,26 +35,28 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('guest');
+        $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'fname' => 'required|string|max:255',
-            'sname' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'status' => 'required|string',
-            'password' => 'required|string|min:6|confirmed',
+   
 
-        ]);
-    }
+    // /**
+    //  * Get a validator for an incoming registration request.
+    //  *
+    //  * @param  array  $data
+    //  * @return \Illuminate\Contracts\Validation\Validator
+    //  */
+    // protected function validator(array $data)
+    // {
+    //     return Validator::make($data, [
+    //         'fname' => 'required|string|max:255',
+    //         'sname' => 'required|string|max:255',
+    //         'email' => 'required|string|email|max:255|unique:users',
+    //         'status' => 'required|string',
+    //         'password' => 'required|string|min:6|confirmed',
+
+    //     ]);
+    // }
 
     /**
      * Create a new user instance after a valid registration.
@@ -65,8 +67,16 @@ class RegisterController extends Controller
   
     protected function create(array $data)
     {
-        // dd($data);
-        return User::create([
+        Validator::make($data, [
+            'fname' => 'required|string|max:255',
+            'sname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'status' => 'required|string',
+            'password' => 'required|string|min:6|confirmed',
+
+        ]);
+
+        $user = User::create([
             'first_name' => $data['fname'],
             'surname' => $data['sname'],
             'email' => $data['email'],
@@ -74,6 +84,10 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
            
         ]);
+
+        if($user){
+            return redirect('/home');
+        }
 
     }
 }

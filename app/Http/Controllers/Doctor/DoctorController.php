@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Doctor;
 
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
+
 class DoctorController extends Controller
 {
     public function __construct()
@@ -17,15 +18,15 @@ class DoctorController extends Controller
     public function index()
     {
         
-         $patient = DB::table('patientsinstance')
-            ->select('patients.*','patientsinstance.*')
+         // $patient = DB::table('patientsinstance')
+         //    ->select('patients.*','patientsinstance.*')
 
-            ->join('patients', 'patientsinstance.patientsid', '=','patients.mssnid' )
-            ->get();
-        $p = DB::table('patients')->get();
+         //    ->join('patients', 'patientsinstance.patientsid', '=','patients.mssnid' )
+         //    ->get();
+        $patient = DB::table('patients')->get();
        
             // dd($patient);
-         return view('doctor', ['patients'=> $patient,'p'=> $p]);
+         return view('doctor', ['patients'=> $patient,'p'=> $patient]);
     }
     public function update(Request $request)
     {

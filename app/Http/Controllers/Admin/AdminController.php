@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
 
-class HomeController extends Controller
+class AdminController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -17,7 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','admin']);
     }
 
     /**
@@ -42,14 +43,6 @@ class HomeController extends Controller
         }
 
         
-    }
-
-    public function delete($id)
-    {
-      $user = DB::table('users')->find($id)->delete();;
-       if ($user) {
-          return redirect('/admin/home')->with('message','User Deleted');   
-        }    
     }
 
     public function update(Request $request)
@@ -85,24 +78,5 @@ class HomeController extends Controller
         }elseif ($status=='Doctor') {
         return redirect('/doctor', ['p'=> $p]);
         }
-    }
-    public function Add(Request $request)
-    {
-
-           $request->validate([
-        'name' => 'required|min:3',
-        'Record' => 'required|min:3',
-        'Status' => 'required',
-         ]);
-    $title=$request->input('name');
-    $author=$request->input('Author');
-    $record=$request->input('Record');
-    $status=$request->input('Status');
-    // echo $status;
-    // $date_created = $request->timestamps();
-
-     $result= DB::insert('insert into post (Title,Content,Author,Status) values(?,?,?,?)', [$title,$record,$author,$status]);
-        echo "Record Created";
-        
     }
 }

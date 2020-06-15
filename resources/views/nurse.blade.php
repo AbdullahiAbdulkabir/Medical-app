@@ -55,7 +55,7 @@
                                 <div class="col-xs-9 text-right">
                                 	@if($p)
                                     <div class="huge">{{count($p)}}</div>
-                                    @endif
+                                    @endif                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                                     <div> Registered Patients</div>
                                 </div>
                             </div>

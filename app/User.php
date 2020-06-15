@@ -7,6 +7,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    const LAB_SCIENTIST = 'lab_scientist';
+    const ADMIN = 'admin';
+    const DOCTOR = 'doctor';
+    const NURSE = 'nurse';
+    const PHARMACIST = 'pharmacist';
+    const RECORD_OFFICER = 'record_officer';
+
     use Notifiable;
     // public $timestamps = false;
     /**

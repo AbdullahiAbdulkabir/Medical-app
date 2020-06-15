@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
+use App\User;
+
 class pharmacistsMiddleware
 {
     /**
@@ -15,23 +17,23 @@ class pharmacistsMiddleware
      */
     public function handle($request, Closure $next)
     {
-         if (Auth::check() && Auth::user()->status == 'Admin') {
+        if (Auth::check() && Auth::user()->status == User::ADMIN) {
             return redirect()->route('home');
         }
-        elseif (Auth::check() && Auth::user()->status == 'Doctor') {
+        elseif (Auth::check() && Auth::user()->status == User::DOCTOR) {
             return redirect()->route('doctor');
         }
-        elseif (Auth::check() && Auth::user()->status == 'Nurse') {
+        elseif (Auth::check() && Auth::user()->status == User::NURSE) {
             return redirect()->route('nurse');
         }
-        elseif (Auth::check() && Auth::user()->status == 'Pharmacists') {
+        elseif (Auth::check() && Auth::user()->status == User::PHARMACIST) {
+            // return redirect()->route('pharmacist');
             return $next($request); 
-            // return redirect()->route('pharmacists');
         }
-        elseif (Auth::check() && Auth::user()->status == 'Record Officer') {
+        elseif (Auth::check() && Auth::user()->status == User::RECORD_OFFICER) {
         }
-        elseif (Auth::check() && Auth::user()->status == 'Lab Scientist') {
-            return redirect()->route('lab'); 
+        elseif (Auth::check() && Auth::user()->status == User::LAB_SCIENTIST) {
+            return redirect()->route('lab');
         }
         else {
             return redirect()->route('login');
