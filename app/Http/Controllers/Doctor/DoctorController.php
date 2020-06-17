@@ -26,7 +26,7 @@ class DoctorController extends Controller
         $patient = DB::table('patients')->get();
        
             // dd($patient);
-         return view('doctor', ['patients'=> $patient,'p'=> $patient]);
+         return view('doctor.index', ['patients'=> $patient,'p'=> $patient]);
     }
     public function update(Request $request)
     {

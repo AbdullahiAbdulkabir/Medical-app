@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="content-wrapper">
+          <div>
+                     <a href="{{URL::to('doctor/profile')}}"><button class="btn btn-default">update</button></a>
+                <a href="{{URL::to('doctor/patient')}}"><button class="btn btn-default">Add Patient</button></a>
+                <a href="{{URL::to('doctor/delegates')}}"><button class="btn btn-default">View Delegates with Ailment</button></a>
+            </div>
         <div class="container-fluid">
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
@@ -21,6 +26,7 @@
 
             <!-- Icon Cards-->
             <div class="row">
+              
             	<div class="col-xl-4 col-md-4 col-sm-6 mb-3">  
                     <div class="panel panel-red">
                         <div class="panel-heading">
@@ -238,9 +244,7 @@
             </div>
         </div>
     </div>
-                <a href="{{URL::to('doctor/profile')}}"><button class="btn btn-default">update</button></a>
-                <a href="{{URL::to('doctor/addp')}}"><button class="btn btn-default">Add Patient</button></a>
-                <a href="{{URL::to('doctor/delegates')}}"><button class="btn btn-default">View Delegates with Ailment</button></a>
+               
 
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->

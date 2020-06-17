@@ -4,7 +4,7 @@
 
 <div class="container">
     <!-- Display Validation Errors -->
-    @include('common.errors')
+    @include('../common.errors')
     @if(session()->has('message'))
                 <div class="alert alert-success">
                     {{session()->get('message')}}
@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-2">
            <a href="{{route('register')}}"> <button class="btn btn-default">Create user</button></a> <br/>
-            <a href="{{URL::to('profile')}}"><button class="btn btn-default">Update profile </button></a>
+            <a href="{{URL::to('admin/profile')}}"><button class="btn btn-default">Update profile </button></a>
         </div>
         <div class="col-md-8 ">
             <div class="panel panel-default">
@@ -223,7 +223,7 @@
                                 <tbody>
                                      @foreach($users as $user)
                                          @if($user->status==App\User::PHARMACIST)
-                                              {{count($user)}}
+                                              
                                         <tr>
                                             <td>
                                               {{$user->surname}}
